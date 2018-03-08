@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r "setup", include=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "~/dev/appliedPredictiveModeling")
+```
+
+``` {r data}
+library( ProjectTemplate )
+load.project()
+```
+
+```{r eda }
+head( segmentationOriginal )
+```
+
+```{r check_segdata }
+head(segdata)
+```
+
+```{r skewness }
+skewness(segdata$AngleCh1)
+```
+
+```{r skew_values }
+skew.values <- apply( segdata, 2, skewness )
+```
+
+```{r check_skew_values }
+head( skew.values )
+```
+
+```{r boxcox_transform }
+Ch1AreaTrans <- BoxCoxTrans( segdata$AreaCh1 )
+Ch1AreaTrans
+```
+
+```{r caret_trans }
+df.prep <- preProcess( segdata
+                        , method = c( 'BoxCox', 'center', 'scale', 'pca' ))
+```
+
+```{r mlbench }
+library(mlbench)
+data( Glass )
+str( Glass )
+```
+
+```{r corrplot_glass }
+apply( Glass[,1:9], 2, hist)
+```
+
